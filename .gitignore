@@ -12,3 +12,4 @@ venv/
 # Crawler data
 data/
 *.json
+*.db
