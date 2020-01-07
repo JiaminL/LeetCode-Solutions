@@ -21,12 +21,17 @@ class LeetCodeDatabase:
         )""")
         self.db.execute("""CREATE TABLE IF NOT EXISTS
         `solutions` (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             questionId INTEGER,
             language TEXT,
             code TEXT,
             source TEXT
         )""")
+        self.db.commit()
+
+    def add_solution(self, question_id, language, content, source=""):
+        self.db.execute("""INSERT INTO `solutions` (questionId, language, code, source) VALUES (?, ?, ?, ?)""",
+            (question_id, language, content, source))
         self.db.commit()
 
 
@@ -61,9 +66,26 @@ class LeetCodeClient:
         if response.status_code != 200:
             raise HTTPError(f"Login failed, code: {response.status_code}")
 
-    def fetch_code(uuid: str):
+    def fetch_code(self, uuid: str):
         payload = {
             "operationName": "fetchPlayground",
             "variables": {},
-            "query": 'query fetchPlayground { playground(uuid: "CLZq9vzU") { testcaseInput name isUserOwner isLive showRunCode showOpenInPlayground selectedLangSlug isShared __typename } allPlaygroundCodes(uuid: "CLZq9vzU") { code langSlug __typename }}'
+            "query": 'query fetchPlayground { playground(uuid: "%%") { testcaseInput name isUserOwner isLive showRunCode showOpenInPlayground selectedLangSlug isShared __typename } allPlaygroundCodes(uuid: "%%") { code langSlug __typename }}'.replace("%%", uuid)
         }
+        response = self.client.post("https://leetcode.com/graphql", json=payload)
+        if response.status_code != 200:
+            raise HTTPError(f"GraphQL query failed, code: {response.status_code}")
+        data = response.json()
+
+
+def main():
+    username = os.environ.get('LEETCODE_USERNAME') or input("Enter your LeetCode username: ")
+    password = os.environ.get('LEETCODE_PASSWORD') or getpass.getpass("Enter your LeetCode password: ")
+
+    client = LeetCodeClient()
+    client.login(username, password)
+    return
+
+
+if __name__ == '__main__':
+    main()
