@@ -12,7 +12,7 @@ Open a browser (latest Chrome recommended), log in to your LeetCode account manu
 $.getScript("https://raw.githubusercontent.com/JiaminL/LeetCode-Solutions/master/script.js")
 ```
 
-Watch the log closely. When it says "Completed", the crawled result will be automatically downloaded to `result.json`.
+Wait for a few moments for the script to complete. Depending on your network connectivity this may take a few minutes or sometimes minutes. After it's completed, simply run `saveResult()` in the console to download the result as a JSON file.
 
 ## Output format
 
