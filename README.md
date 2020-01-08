@@ -2,15 +2,17 @@
 
 Flexible Assignment 2 of course « Web Information Processing and Application »
 
-## Install
+## Instructions
 
-This project depends on `requests`, which you can install from either PyPI or your distro's package repository (the package is usually named `python3-requests`).
+Because LeetCode recently added [Google's reCAPTCHA][reCAPTCHA], a spider client can no longer log in to LeetCode and access its GraphQL endpoint. So this spider is written in JavaScript and runs in a browser.
 
-## Run
+Open a browser (latest Chrome recommended), log in to your LeetCode account manually, and run the following script in Developer Console (usually available after pressing **F12**):
 
-You need to log in to LeetCode before their GraphQL endpoint is accessible.
+```javascript
+$.getScript("https://raw.githubusercontent.com/JiaminL/LeetCode-Solutions/master/script.js")
+```
 
-There are two ways to provide your login credentials to the script: Either give them in environment variables `LEETCODE_USERNAME` and `LEETCODE_PASSWORD`, or run the script directly and let it prompt you to enter them.
+Watch the log closely. When it says "Completed", the crawled result will be automatically downloaded to `result.json`.
 
 ## Output format
 
@@ -29,3 +31,5 @@ This is the required format from the TAs.
   ]
 }
 ```
+
+  [reCAPTCHA]: https://en.wikipedia.org/wiki/ReCAPTCHA
